@@ -2,12 +2,10 @@ package org.example;
 class LinkList {
     int value;
     LinkList next;
-
     public LinkList(int val, LinkList next) {
         this.value = val;
         this.next=next;
     }
-
     public LinkList(int val)
     {
         this.value = val;
@@ -15,10 +13,38 @@ class LinkList {
     public LinkList()
     {
     }
-
 }
 
 public class Main {
+    static LinkList reverse(LinkList head, int k)
+    {
+        if(head == null)
+            return null;
+        LinkList current = head;
+        LinkList next = null;
+        LinkList prev = null;
+
+        int count = 0;
+
+        /* Reverse first k nodes of linked list */
+        while (count < k && current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+            count++;
+        }
+
+        /* next is now a pointer to (k+1)th node
+           Recursively call for the list starting from
+           current. And make rest of the list as next of
+           first node */
+        if (next != null)
+            head.next = reverse(next, k);
+
+        // prev is now head of input list
+        return prev;
+    }
     static LinkList sum(LinkList l1, LinkList l2){
         LinkList head = new LinkList();
         LinkList tail = new LinkList();
@@ -55,15 +81,13 @@ public class Main {
     public static void main(String[] args) {
 
 
-        LinkList l1 = new LinkList(8),l2 = new LinkList(6);
-        for (int i = 7; i >=6 ; i--) {
-            l1.next=l1;
-            l1.value=i;
+        LinkList l1 = null, l2 = null;
+        for (int i =6; i <= 8; i++) {
+            l1 = new LinkList(i, l1);
         }
-        for (int i = 5; i >=4 ; i--) {
-            l2.next=l2;
-            l2.value=i;
+        for (int i = 4; i <=6 ; i++) {
+            l2=new LinkList(i,l2);
         }
-        LinkList l3= sum(l1,l2);
+        LinkList l3=reverse( l1, 2);
     }
 }
